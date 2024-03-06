@@ -31,7 +31,7 @@ jobs:
       timeout-minutes: 3
       env:
        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-       # SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }} #OPTIONAL
+       SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }} #OPTIONAL
 
     # The possible outputs of the `quality-gate-status` variable are `PASSED`, `WARN` or `FAILED`.
     - name: "Example show SonarQube Quality Gate Status value"
