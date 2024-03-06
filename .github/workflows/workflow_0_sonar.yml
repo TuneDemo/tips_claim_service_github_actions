@@ -1,0 +1,39 @@
+name: workflow_0_sonar
+  # Trigger analysis when pushing in master or pull requests, and when creating
+  # a pull request.
+on:
+  push:
+    branches:
+      -master
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  sonarcube:
+    runs-on: ubunthu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    # Triggering SonarQube analysis as results of it are required by Quality Gate check.    
+    - name: SonarCube Scan
+      uses: sonarsource/sonarqube-scan-action@master
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+    # Check the Quality Gate status.
+    - name: SonarQube Quality Gate check
+      id: sonarqube-quality-gate-check
+      uses: sonarsource/sonarqube-quality-gate-action@master
+      
+    # Force to fail step after specific time.
+      timeout-minutes: 3
+      env:
+       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+       # SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }} #OPTIONAL
+
+    # The possible outputs of the `quality-gate-status` variable are `PASSED`, `WARN` or `FAILED`.
+    - name: "Example show SonarQube Quality Gate Status value"
+      run: echo "The Quality Gate status is ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }}"       
