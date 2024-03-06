@@ -3,10 +3,9 @@ name: workflow_0_sonar
   # a pull request.
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    types: [opened, synchronize, reopened]
+    branches: [main]
 
 jobs:
   sonarcube:
