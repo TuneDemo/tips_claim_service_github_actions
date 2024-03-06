@@ -1,6 +1,4 @@
 name: workflow_0_sonar
-  # Trigger analysis when pushing in master or pull requests, and when creating
-  # a pull request.
 on:
   push:
     branches: [main]
