@@ -1,9 +1,15 @@
 name: workflow_0_sonar
+
+# Trigger analysis when pushing to your main branches, and when creating a pull request.
+
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - develop
+      - 'releases/**'
   pull_request:
-    branches: [main]
+      types: [opened, synchronize, reopened]
 
 jobs:
   sonarcube:
