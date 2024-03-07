@@ -22,14 +22,14 @@ jobs:
 
     - name: SonarQube Scan
       uses: sonarsource/sonarcloud-github-action@master
-        with:
-          token: ${{ secrets.SONAR_TOKEN }}
-          organization: "TuneDemo"
-          projectKey: "tunedemo-1"
-          projectName: "tips_claim_service_github_actions"
-          projectBaseDir: "./"
-          extraProperties: |
-            sonar.host.url=https://sonarcloud.io/summary/new_code?id=TuneDemo_tips_claim_service_github_actions
+      with:
+        token: ${{ secrets.SONAR_TOKEN }}
+        organization: "TuneDemo"
+        projectKey: "tunedemo-1"
+        projectName: "tips_claim_service_github_actions"
+        projectBaseDir: "./"
+        extraProperties: |
+          sonar.host.url=https://sonarcloud.io/summary/new_code?id=TuneDemo_tips_claim_service_github_actions
         
 
     # Check the Quality Gate status.
