@@ -14,11 +14,23 @@ jobs:
         fetch-depth: 0
 
     # Triggering SonarQube analysis as results of it are required by Quality Gate check.   
-    - name: SonarCube Scan
-      uses: sonarsource/sonarqube-scan-action@master
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+    #- name: SonarCube Scan
+    #  uses: sonarsource/sonarqube-scan-action@master
+    #  env:
+    #    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    #    SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+    - name: SonarQube Scan
+      uses: sonarsource/sonarcloud-github-action@master
+        with:
+          token: ${{ secrets.SONAR_TOKEN }}
+          organization: "TuneDemo"
+          projectKey: "tunedemo-1"
+          projectName: "tips_claim_service_github_actions"
+          projectBaseDir: "./"
+          extraProperties: |
+            sonar.host.url=https://sonarcloud.io/summary/new_code?id=TuneDemo_tips_claim_service_github_actions
+        
 
     # Check the Quality Gate status.
     - name: SonarQube Quality Gate check
