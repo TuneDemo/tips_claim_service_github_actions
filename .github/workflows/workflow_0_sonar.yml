@@ -28,6 +28,22 @@ jobs:
 
     - name: Build with Maven
       run : mvn -B package --file pom.xml
+
+    # Cache SonarQube packages.
+
+    - name: Cache SonarQube and Maven packages
+      uses: actions/cache@v1
+      with:
+        path: ~/.sonar/cache
+        key: ${{ runner.os }}-sonar
+        restore-keys: ${{ runner.os }}-sonar
+
+    - name: Cache Maven packages
+      uses: actions/cache@v1
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
         
 
     # Triggering SonarQube analysis as results of it are required by Quality Gate check.   
@@ -36,6 +52,7 @@ jobs:
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
      
     # Check the Quality Gate status.
     - name: SonarQube Quality Gate check
@@ -43,7 +60,7 @@ jobs:
       uses: sonarsource/sonarqube-quality-gate-action@master
       
     # Force to fail step after specific time.
-      timeout-minutes: 3
+      timeout-minutes: 1
       env:
        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }} #OPTIONAL
